@@ -106,9 +106,13 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                             childAspectRatio: 0.6,
                             // mainAxisExtent: 8
                           ),
-                          itemCount: filterlist.length,
+                          itemCount: filterlist.isEmpty
+                              ? products.length
+                              : filterlist.length,
                           itemBuilder: (context, index) {
-                            final product = filterlist[index];
+                            final product = filterlist.isEmpty
+                                ? products[index]
+                                : filterlist[index];
                             return Container(
                               margin: const EdgeInsets.all(6),
                               width: MediaQuery.of(context).size.width - 15,
@@ -149,10 +153,9 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 4, vertical: 2),
-                                          child: Text(double.parse(
-                                                  product
-                                                      .rating
-                                                      .toStringAsFixed(1))
+                                          child: Text(double.parse(product
+                                                  .rating
+                                                  .toStringAsFixed(1))
                                               .toString()),
                                         ))
                                   ]),
@@ -186,8 +189,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                                                         const CartScreen()));
                                           }
                                         : () {
-                                            prdMngr
-                                                .addItemToCart(product);
+                                            prdMngr.addItemToCart(product);
                                             setState(() {});
                                           },
                                     child: Align(
@@ -202,18 +204,14 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                                             color: (prdMngr.cartItems.any(
                                                     (element) =>
                                                         element.id ==
-                                                        product
-                                                            .id
-                                                            .toString()))
+                                                        product.id.toString()))
                                                 ? Colors.green[400]
                                                 : Colors.blue[200]),
                                         child: Center(
                                             child: (prdMngr.cartItems.any(
                                                     (element) =>
                                                         element.id ==
-                                                        product
-                                                            .id
-                                                            .toString()))
+                                                        product.id.toString()))
                                                 ? const Text('Go To Cart')
                                                 : const Text("Add to Cart")),
                                       ),
@@ -226,9 +224,13 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
 
                       // *DISPLAYS PRODUCTS IN LIST VIEW
                       : ListView.builder(
-                          itemCount: filterlist.length,
+                          itemCount: filterlist.isEmpty
+                              ? products.length
+                              : filterlist.length,
                           itemBuilder: (context, index) {
-                            final product = filterlist[index];
+                            final product = filterlist.isEmpty
+                                ? products[index]
+                                : filterlist[index];
                             // : filterlist[index];
                             return Container(
                                 margin: const EdgeInsets.all(6),
